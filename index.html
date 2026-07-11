@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bandiera Official — Vintage Streetwear Indonesia</title>
+<meta name="description" content="Bandiera Official — kaos oversize & workshirt vintage streetwear, dibuat di Sidoarjo, Indonesia.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['Oswald', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
+        stamp: ['"Special Elite"', 'monospace'],
+      },
+      colors: {
+        cream: '#F4EEE1',
+        paper: '#EDE5D3',
+        ink: '#211C18',
+        rust: '#9A3324',
+        rustdark: '#7A281C',
+        khaki: '#7C7357',
+        gold: '#C7A855',
+      }
+    }
+  }
+}
+</script>
+<style>
+  /* NOTE: placeholder palette/wordmark — swap for real Bandiera logo files + confirmed
+     palette from Yakob's brand asset folder before this leaves draft status. */
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #F4EEE1;
+    color: #211C18;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-display { font-family: 'Oswald', sans-serif; letter-spacing: 0.01em; }
+  .font-stamp { font-family: 'Special Elite', monospace; }
+
+  .grain::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  .hero-glow {
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(154,51,36,0.18) 0%, transparent 65%),
+      #211C18;
+  }
+
+  .badge-star {
+    display:inline-flex; align-items:center; justify-content:center;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #C7A855, transparent);
+    max-width: 560px;
+  }
+
+  .btn-primary {
+    background: #9A3324;
+    color: #F4EEE1 !important;
+    text-decoration: none !important;
+    box-shadow: 0 8px 24px -6px rgba(154,51,36,0.55);
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    display: inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-weight: 600;
+    border: none; cursor:pointer; outline:none;
+  }
+  .btn-primary:hover { background:#7A281C; transform: translateY(-1px); box-shadow: 0 12px 28px -6px rgba(154,51,36,0.65); }
+  .btn-primary:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+
+  .btn-ghost {
+    background: transparent;
+    border: 1.5px solid #211C18;
+    color: #211C18 !important;
+    text-decoration:none !important;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-weight:600;
+    transition: all 0.2s ease;
+    cursor:pointer;
+  }
+  .btn-ghost:hover { background:#211C18; color:#F4EEE1 !important; }
+
+  .product-card {
+    background: #FBF8F0;
+    border: 1px solid rgba(33,28,24,0.08);
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -12px rgba(33,28,24,0.18);
+    border-color: rgba(154,51,36,0.3);
+  }
+
+  .swatch-tee {
+    position: relative;
+    aspect-ratio: 4/5;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+
+  .size-pill {
+    border: 1.5px solid rgba(33,28,24,0.25);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    background: transparent;
+  }
+  .size-pill.active {
+    background:#211C18; color:#F4EEE1; border-color:#211C18;
+  }
+  .size-pill:hover:not(.active) { border-color:#211C18; }
+
+  .color-pill {
+    border: 1.5px solid rgba(33,28,24,0.25);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    background: transparent;
+    display:flex; align-items:center; gap:7px;
+  }
+  .color-pill.active { border-color:#9A3324; background: rgba(154,51,36,0.08); }
+
+  .reveal { opacity:0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.25,1,0.5,1), transform 0.6s cubic-bezier(0.25,1,0.5,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset:0; background: rgba(33,28,24,0.6);
+    backdrop-filter: blur(4px);
+    display:flex; align-items:flex-end; sm:align-items:center; justify-content:center;
+    z-index: 60; opacity:0; pointer-events:none; transition: opacity 0.25s ease;
+  }
+  .modal-overlay.open { opacity:1; pointer-events:auto; }
+  .modal-panel {
+    background: #F4EEE1;
+    width: 100%; max-width: 880px; max-height: 92vh; overflow-y:auto;
+    border-radius: 20px 20px 0 0;
+    transform: translateY(30px);
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .modal-overlay.open .modal-panel { transform: translateY(0); }
+  @media (min-width: 640px) {
+    .modal-overlay { align-items:center; padding: 24px; }
+    .modal-panel { border-radius: 20px; }
+  }
+
+  /* Cart drawer */
+  #cartDrawer {
+    position: fixed; top:0; right:0; height:100%; width:100%; max-width:420px;
+    background:#F4EEE1;
+    box-shadow: -20px 0 50px -12px rgba(0,0,0,0.35);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    z-index: 70;
+    display:flex; flex-direction:column;
+  }
+  #cartDrawer.open { transform: translateX(0); }
+  #cartOverlay {
+    position:fixed; inset:0; background:rgba(33,28,24,0.5); z-index:65;
+    opacity:0; pointer-events:none; transition: opacity 0.3s ease;
+  }
+  #cartOverlay.open { opacity:1; pointer-events:auto; }
+
+  .form-input {
+    width:100%; padding: 11px 14px; border-radius: 10px;
+    border: 1.5px solid rgba(33,28,24,0.2);
+    background:#FBF8F0; font-family:'Inter',sans-serif; font-size:14px; color:#211C18;
+    outline:none; transition:border 0.2s;
+  }
+  .form-input:focus { border-color:#9A3324; }
+
+  #toast {
+    position: fixed; bottom:24px; left:50%; transform: translateX(-50%) translateY(120px);
+    background:#211C18; color:#F4EEE1; padding:12px 22px; border-radius:10px;
+    font-size:13px; font-weight:600; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    z-index: 999; display:flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  .stars { color:#C7A855; letter-spacing:2px; }
+  ::-webkit-scrollbar { width:8px; }
+  ::-webkit-scrollbar-thumb { background: rgba(33,28,24,0.25); border-radius: 999px; }
+</style>
+</head>
+<body>
+
+<!-- Toast -->
+<div id="toast">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+  <span id="toastMsg">Ditambahkan ke keranjang</span>
+</div>
+
+<!-- Top bar -->
+<div class="bg-ink text-cream/80 text-xs font-stamp py-2 text-center px-4">
+  OFFICIAL STORE — IG <a href="https://instagram.com/bandiera.official" target="_blank" class="underline hover:text-cream">@bandiera.official</a> · TikTok <a href="https://www.tiktok.com/@bandieraofficial" target="_blank" class="underline hover:text-cream">@bandieraofficial</a>
+</div>
+
+<!-- Nav -->
+<header class="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b border-ink/10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 4.9 5.3.6-4 3.7 1.1 5.3L12 13.9 7.4 16.5l1.1-5.3-4-3.7 5.3-.6L12 2z" fill="#9A3324"/></svg>
+      <span class="font-display text-xl font-bold tracking-wide text-ink">BANDIERA</span>
+      <span class="hidden sm:inline font-stamp text-[10px] text-ink/50 tracking-widest mt-1">OFFICIAL</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 font-display text-sm tracking-wide text-ink/80">
+      <a href="#katalog" class="hover:text-rust transition">KATALOG</a>
+      <a href="#tentang" class="hover:text-rust transition">TENTANG</a>
+      <a href="#testimoni" class="hover:text-rust transition">TESTIMONI</a>
+      <a href="#kontak" class="hover:text-rust transition">KONTAK</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="https://wa.me/6285159388011" target="_blank" class="hidden sm:inline-flex btn-ghost px-4 py-2 rounded-full text-xs">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path fill="currentColor" d="M11.997 2C6.477 2 2 6.477 2 12c0 1.99.584 3.842 1.59 5.395L2 22l4.73-1.57A9.95 9.95 0 0011.997 22C17.52 22 22 17.523 22 12S17.52 2 11.997 2zm0 18.154a8.11 8.11 0 01-4.148-1.137l-.297-.176-3.08 1.02 1.034-3.014-.193-.31A8.101 8.101 0 013.846 12c0-4.492 3.659-8.154 8.151-8.154 4.49 0 8.152 3.662 8.152 8.154 0 4.49-3.66 8.154-8.152 8.154z"/></svg>
+        Admin
+      </a>
+      <button onclick="toggleCart(true)" class="relative w-10 h-10 rounded-full flex items-center justify-center border border-ink/15 hover:border-ink/40 transition">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.836l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.918-4.782 2.348-7.396A1.125 1.125 0 0019.712 6H5.25M7.5 14.25L5.106 5.272M7.5 14.25L5.25 6M9.75 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm9 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
+        <span id="cartCount" class="hidden absolute -top-1 -right-1 bg-rust text-cream text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="top"></div>
+
+<!-- Hero -->
+<section class="hero-glow relative overflow-hidden text-cream">
+  <div class="grain absolute inset-0"></div>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28 text-center relative">
+    <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cream/25 mb-7">
+      <span class="w-1.5 h-1.5 rounded-full bg-rust"></span>
+      <span class="font-stamp text-[11px] tracking-widest uppercase text-cream/75">Made in Sidoarjo, Indonesia</span>
+    </div>
+    <h1 class="reveal font-display font-bold text-4xl sm:text-6xl leading-[1.05] tracking-wide mb-6">
+      VINTAGE STREETWEAR<br><span class="text-rust">UNTUK YANG PUNYA CERITA</span>
+    </h1>
+    <p class="reveal text-cream/70 text-sm sm:text-base max-w-xl mx-auto mb-9 leading-relaxed">
+      Kaos oversize dan workshirt bordir buatan lokal — bahan tebal, jahitan rapi, desain yang nggak lekang zaman.
+    </p>
+    <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#katalog" class="btn-primary px-8 py-3.5 rounded-full text-sm">
+        Belanja Koleksi
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"/></svg>
+      </a>
+      <a href="https://shopee.co.id/bandieraofficial" target="_blank" class="text-cream/60 hover:text-cream text-xs font-stamp tracking-wide underline underline-offset-4">
+        Lihat juga di Shopee →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Value strip -->
+<section class="bg-ink text-cream/85 border-t border-cream/10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+    <div class="reveal">
+      <p class="font-display text-sm tracking-wide">BAHAN PREMIUM</p>
+      <p class="text-[11px] text-cream/50 mt-1">Cotton Combed 20s & Drill</p>
+    </div>
+    <div class="reveal">
+      <p class="font-display text-sm tracking-wide">CHECKOUT VIA WA</p>
+      <p class="text-[11px] text-cream/50 mt-1">Dibalas langsung admin</p>
+    </div>
+    <div class="reveal">
+      <p class="font-display text-sm tracking-wide">PRODUK LOKAL</p>
+      <p class="text-[11px] text-cream/50 mt-1">Diproduksi di Kab. Sidoarjo</p>
+    </div>
+    <div class="reveal">
+      <p class="font-display text-sm tracking-wide">BANTU SIZING</p>
+      <p class="text-[11px] text-cream/50 mt-1">Konsultasi ukuran ke admin</p>
+    </div>
+  </div>
+</section>
+
+<!-- Katalog -->
+<section id="katalog" class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+  <div class="reveal text-center mb-14">
+    <p class="font-stamp text-xs tracking-widest text-rust uppercase mb-3">Koleksi Terbatas</p>
+    <h2 class="font-display font-bold text-3xl sm:text-4xl text-ink">Produk Pilihan</h2>
+  </div>
+  <div id="productGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</section>
+
+<!-- Tentang -->
+<section id="tentang" class="bg-paper border-y border-ink/10">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-20 text-center">
+    <p class="reveal font-stamp text-xs tracking-widest text-rust uppercase mb-3">Tentang Kami</p>
+    <h2 class="reveal font-display font-bold text-3xl sm:text-4xl text-ink mb-6">Dari Sidoarjo, Untuk Jalanan</h2>
+    <p class="reveal text-ink/70 leading-relaxed text-sm sm:text-base max-w-2xl mx-auto">
+      Bandiera Official lahir dari kecintaan sama gaya vintage dan workwear klasik. Setiap potongan kami kerjakan
+      dengan bahan tebal — cotton combed 20s untuk kaos oversize, drill untuk workshirt — dan detail bordir yang
+      dikerjakan langsung, bukan sekadar sablon tempel. Kami produk asli Indonesia, dan setiap pesanan akan dibalas
+      langsung oleh admin kami buat bantu sizing sebelum kamu checkout.
+    </p>
+    <div class="divider mt-10"></div>
+  </div>
+</section>
+
+<!-- Testimoni -->
+<section id="testimoni" class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+  <div class="reveal text-center mb-14">
+    <p class="font-stamp text-xs tracking-widest text-rust uppercase mb-3">Kata Mereka</p>
+    <h2 class="font-display font-bold text-3xl sm:text-4xl text-ink">Testimoni Pelanggan</h2>
+    <p class="text-ink/50 text-xs mt-3">Ulasan asli dari pembeli di Shopee</p>
+  </div>
+  <div id="testimonialGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+</section>
+
+<!-- Kontak / Footer -->
+<footer id="kontak" class="bg-ink text-cream/80">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 grid sm:grid-cols-3 gap-10">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 4.9 5.3.6-4 3.7 1.1 5.3L12 13.9 7.4 16.5l1.1-5.3-4-3.7 5.3-.6L12 2z" fill="#C7A855"/></svg>
+        <span class="font-display text-lg font-bold text-cream">BANDIERA</span>
+      </div>
+      <p class="text-xs text-cream/50 leading-relaxed">Vintage streetwear & workwear buatan Sidoarjo, Indonesia.</p>
+    </div>
+    <div>
+      <p class="font-stamp text-[11px] tracking-widest uppercase text-cream/40 mb-4">Navigasi</p>
+      <div class="flex flex-col gap-2 text-sm">
+        <a href="#katalog" class="hover:text-cream transition">Katalog</a>
+        <a href="#tentang" class="hover:text-cream transition">Tentang Kami</a>
+        <a href="#testimoni" class="hover:text-cream transition">Testimoni</a>
+      </div>
+    </div>
+    <div>
+      <p class="font-stamp text-[11px] tracking-widest uppercase text-cream/40 mb-4">Hubungi Kami</p>
+      <div class="flex flex-col gap-2 text-sm">
+        <a href="https://wa.me/6285159388011" target="_blank" class="hover:text-cream transition">WhatsApp Admin</a>
+        <a href="https://instagram.com/bandiera.official" target="_blank" class="hover:text-cream transition">Instagram @bandiera.official</a>
+        <a href="https://www.tiktok.com/@bandieraofficial" target="_blank" class="hover:text-cream transition">TikTok @bandieraofficial</a>
+        <a href="https://shopee.co.id/bandieraofficial" target="_blank" class="hover:text-cream transition">Shopee Official Store</a>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-cream/10 text-center py-6">
+    <p class="text-[11px] text-cream/35">© 2026 Bandiera Official. Hak cipta dilindungi.</p>
+  </div>
+</footer>
+
+<!-- Quick View Modal -->
+<div id="modalOverlay" class="modal-overlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal-panel">
+    <div class="relative">
+      <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-ink/80 text-cream flex items-center justify-center">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <div class="grid sm:grid-cols-2 gap-0">
+        <div id="modalImage" class="swatch-tee"></div>
+        <div class="p-6 sm:p-8">
+          <p id="modalCategory" class="font-stamp text-[11px] tracking-widest text-rust uppercase mb-2"></p>
+          <h3 id="modalName" class="font-display font-bold text-2xl text-ink mb-2 leading-tight"></h3>
+          <p id="modalPrice" class="font-display text-xl text-rust font-semibold mb-4"></p>
+          <p id="modalDesc" class="text-sm text-ink/65 leading-relaxed mb-5"></p>
+
+          <div id="modalColorWrap" class="mb-5 hidden">
+            <p class="text-xs font-bold text-ink/70 uppercase tracking-wide mb-2">Warna</p>
+            <div id="modalColors" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <div class="mb-5">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs font-bold text-ink/70 uppercase tracking-wide">Ukuran</p>
+              <button onclick="toggleSizeChart()" class="text-[11px] text-rust underline underline-offset-2">Tabel Ukuran</button>
+            </div>
+            <div id="modalSizes" class="flex flex-wrap gap-2"></div>
+            <div id="sizeChart" class="hidden mt-3 text-xs bg-paper rounded-lg p-3 overflow-x-auto"></div>
+          </div>
+
+          <div class="mb-6">
+            <p class="text-xs font-bold text-ink/70 uppercase tracking-wide mb-2">Jumlah</p>
+            <div class="flex items-center gap-3">
+              <button onclick="changeQty(-1)" class="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center hover:border-ink/50">−</button>
+              <span id="modalQty" class="font-display font-semibold text-base w-6 text-center">1</span>
+              <button onclick="changeQty(1)" class="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center hover:border-ink/50">+</button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <button onclick="addToCart()" class="btn-primary py-3 rounded-full text-sm">Tambah ke Keranjang</button>
+            <button onclick="buyNow()" class="btn-ghost py-3 rounded-full text-sm">Beli Langsung via WhatsApp</button>
+          </div>
+          <p id="modalNote" class="text-[11px] text-ink/40 mt-4 leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Drawer -->
+<div id="cartOverlay" onclick="toggleCart(false)"></div>
+<div id="cartDrawer">
+  <div class="flex items-center justify-between px-6 py-5 border-b border-ink/10">
+    <h3 class="font-display font-bold text-lg">Keranjang</h3>
+    <button onclick="toggleCart(false)" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-ink/5">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto px-6 py-4"></div>
+  <div id="cartCheckoutForm" class="border-t border-ink/10 px-6 py-5 space-y-3">
+    <p class="text-xs font-bold text-ink/70 uppercase tracking-wide">Data Pengiriman</p>
+    <input id="custName" type="text" placeholder="Nama Lengkap" class="form-input">
+    <input id="custPhone" type="tel" placeholder="No. HP / WhatsApp" class="form-input">
+    <textarea id="custAddress" placeholder="Alamat Lengkap Pengiriman" rows="2" class="form-input resize-none"></textarea>
+    <div class="flex items-center justify-between pt-2 pb-1">
+      <span class="font-display font-semibold text-sm">Total</span>
+      <span id="cartTotal" class="font-display font-bold text-lg text-rust">Rp0</span>
+    </div>
+    <button onclick="checkoutWhatsApp()" class="btn-primary w-full py-3.5 rounded-full text-sm">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path fill="currentColor" d="M11.997 2C6.477 2 2 6.477 2 12c0 1.99.584 3.842 1.59 5.395L2 22l4.73-1.57A9.95 9.95 0 0011.997 22C17.52 22 22 17.523 22 12S17.52 2 11.997 2zm0 18.154a8.11 8.11 0 01-4.148-1.137l-.297-.176-3.08 1.02 1.034-3.014-.193-.31A8.101 8.101 0 013.846 12c0-4.492 3.659-8.154 8.151-8.154 4.49 0 8.152 3.662 8.152 8.154 0 4.49-3.66 8.154-8.152 8.154z"/></svg>
+      Checkout via WhatsApp
+    </button>
+    <p class="text-[11px] text-ink/40 text-center leading-relaxed">Pembayaran &amp; ongkir dikonfirmasi langsung oleh admin setelah chat masuk.</p>
+  </div>
+</div>
+
+<script>
+// ==========================================
+// PRODUCT DATA
+// ==========================================
+const PRODUCTS = [
+  {
+    id: 'benhur',
+    name: 'Bandiera BNDR - Benhur Oversize T-shirt',
+    category: 'Kaos Oversize',
+    price: 159000,
+    color: '#2447C4',
+    accent: '#F4EEE1',
+    logoText: 'bndr',
+    desc: 'Kaos oversize dari cotton combed 20s dengan sablon plastisol. Baju ini oversize, jadi ukurannya lebih besar dari biasanya — hubungi admin untuk bantuan sizing.',
+    sizes: ['Size 1', 'Size 2'],
+    sizeChart: [
+      ['Ukuran', 'Bahu', 'Dada', 'Panjang'],
+      ['Size 1', '50 cm', '58 cm', '73 cm'],
+      ['Size 2', '54 cm', '62 cm', '77 cm'],
+    ],
+    note: 'Cotton combed 20s · Sablon plastisol · Ships from Kab. Sidoarjo'
+  },
+  {
+    id: 'rimainder',
+    name: 'BANDIERA Rimainder | Baju Oversize Hitam',
+    category: 'Kaos Oversize',
+    price: 318000,
+    color: '#191714',
+    accent: '#F4EEE1',
+    logoText: '',
+    desc: 'Bandiera selection Dusty Peach Oversize T-shirt. Fit besar dan nyaman, cocok untuk tall size & plus size. Baju ini oversize, jadi ukurannya lebih besar dari biasanya.',
+    sizes: ['Size 1', 'Size 2'],
+    sizeChart: [
+      ['Ukuran', 'Bahu', 'Dada', 'Panjang'],
+      ['Size 1', '50 cm', '58 cm', '73 cm'],
+      ['Size 2', '54 cm', '62 cm', '77 cm'],
+    ],
+    note: 'Cotton combed 20s · Sablon plastisol · Ships from Kab. Sidoarjo'
+  },
+  {
+    id: 'workshirt',
+    name: 'BANDIERA Workshirt Coklat | Workshirt Bordir | Kemeja Mekanik',
+    category: 'Workshirt',
+    price: 470000,
+    color: '#5B3A29',
+    accent: '#F4EEE1',
+    logoText: '',
+    colors: [
+      { name: 'Cokelat', hex: '#5B3A29' },
+      { name: 'Hitam', hex: '#191714' },
+    ],
+    desc: 'Workshirt bahan drill dengan detail bordir, lengan pendek, detail kerah & kancing, fit Asia. Cuci mesin maks. 30°C, jangan dikelantang, setrika maks. 150°C.',
+    sizes: ['Size 1', 'Size 2'],
+    sizeChart: [
+      ['Ukuran', 'Lebar Dada', 'Panjang Badan', 'Panjang Lengan'],
+      ['Size 1', '56 cm', '70 cm', '25 cm'],
+      ['Size 2', '60 cm', '74 cm', '28.5 cm'],
+    ],
+    note: 'Bahan Drill · Bordir · Ships from Kab. Sidoarjo'
+  },
+];
+
+const TESTIMONIALS = [
+  { name: '@avi_collection13', date: '13 Jun 2024', variant: 'Size 1', product: 'Benhur Oversize T-shirt', quote: 'Bagus banget ga pernah kecewa sama kualitas produk bandiera.', tags: ['Kenyamanan: Sangat nyaman', 'Desain: Bagus', 'Kualitas: Sangat bagus'] },
+  { name: 'nuraliyawp', date: '3 Jun 2024', variant: 'Size 1', product: 'Benhur Oversize T-shirt', quote: 'Kaosnya bener-bener di luar ekspektasi, bahannya enak dan adem. Cocok untuk kalangan muda, bener-bener rekomended.', tags: ['Kualitas: Sangat bagus', 'Styling: Cocok anak muda'] },
+  { name: 'bagus.wahyu89', date: '17 Sep 2023', variant: 'Size 1', product: 'Rimainder Oversize Black', stars: 5 },
+  { name: 's*****a', date: '24 Sep 2023', variant: 'Size 1', product: 'Rimainder Oversize Black', stars: 5 },
+  { name: 's*****0', date: '1 Apr 2024', variant: 'Hitam & Cokelat', product: 'Workshirt Coklat', quote: 'Ukuran pas, nyaman dipakai untuk desain 👍', stars: 5, tags: ['Tampilan: Bagus', 'Warna: Hitam & Cokelat'] },
+  { name: 'hanania_13', date: '21 Mei 2024', variant: 'Cokelat, Size 2', product: 'Workshirt Coklat', stars: 5 },
+];
+
+const WHATSAPP_NUMBER = '6285159388011';
+const fmtRp = n => 'Rp' + n.toLocaleString('id-ID');
+
+// ==========================================
+// RENDER: PRODUCT GRID
+// ==========================================
+function tshirtSvg(color, accent, logoText) {
+  return `
+  <svg viewBox="0 0 200 240" width="62%" style="filter:drop-shadow(0 10px 18px rgba(0,0,0,0.18))">
+    <path d="M60 20 L20 45 L35 75 L55 63 L55 220 L145 220 L145 63 L165 75 L180 45 L140 20 L120 32 L80 32 Z"
+      fill="${color}" stroke="rgba(0,0,0,0.15)" stroke-width="2"/>
+    ${logoText ? `<text x="100" y="105" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="700" font-style="italic" font-size="18" fill="${accent}">${logoText}</text>` : ''}
+  </svg>`;
+}
+function shirtSvg(color, accent) {
+  return `
+  <svg viewBox="0 0 200 240" width="62%" style="filter:drop-shadow(0 10px 18px rgba(0,0,0,0.18))">
+    <path d="M62 18 L22 42 L38 72 L58 60 L58 222 L142 222 L142 60 L162 72 L178 42 L138 18 L122 30 L100 40 L78 30 Z"
+      fill="${color}" stroke="rgba(0,0,0,0.15)" stroke-width="2"/>
+    <line x1="100" y1="40" x2="100" y2="222" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"/>
+    <circle cx="100" cy="70" r="2.2" fill="rgba(0,0,0,0.3)"/>
+    <circle cx="100" cy="95" r="2.2" fill="rgba(0,0,0,0.3)"/>
+    <circle cx="100" cy="120" r="2.2" fill="rgba(0,0,0,0.3)"/>
+    <ellipse cx="72" cy="70" rx="16" ry="20" fill="none" stroke="${accent}" stroke-width="1.5" opacity="0.7"/>
+    <path d="M62 63 l6 5 9-9" stroke="${accent}" stroke-width="1.5" fill="none" opacity="0.7"/>
+  </svg>`;
+}
+
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = PRODUCTS.map((p, i) => `
+    <div class="reveal product-card rounded-2xl overflow-hidden cursor-pointer" onclick="openModal('${p.id}')">
+      <div class="swatch-tee" style="background:${p.color}">
+        ${p.id === 'workshirt' ? shirtSvg(p.color, p.accent) : tshirtSvg(p.color, p.accent, p.logoText)}
+      </div>
+      <div class="p-5">
+        <p class="font-stamp text-[10px] tracking-widest text-rust uppercase mb-1">${p.category}</p>
+        <h3 class="font-display font-semibold text-base text-ink mb-2 leading-snug">${p.name}</h3>
+        <div class="flex items-center justify-between">
+          <span class="font-display font-bold text-rust">${fmtRp(p.price)}</span>
+          <span class="text-xs text-ink/40 underline underline-offset-2">Lihat Detail</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  observeReveals();
+}
+
+function renderTestimonials() {
+  const grid = document.getElementById('testimonialGrid');
+  grid.innerHTML = TESTIMONIALS.map(t => `
+    <div class="reveal bg-white/60 border border-ink/10 rounded-2xl p-5">
+      <div class="flex items-center justify-between mb-3">
+        <span class="font-display font-semibold text-sm text-ink">${t.name}</span>
+        <span class="text-[11px] text-ink/40">${t.date}</span>
+      </div>
+      ${t.stars ? `<div class="stars text-sm mb-2">${'★'.repeat(t.stars)}</div>` : ''}
+      <p class="text-[11px] text-ink/50 mb-2">${t.product} · ${t.variant}</p>
+      ${t.quote ? `<p class="text-sm text-ink/70 leading-relaxed italic">"${t.quote}"</p>` : ''}
+      ${t.tags ? `<div class="flex flex-wrap gap-1.5 mt-3">${t.tags.map(tag => `<span class="text-[10px] bg-paper text-ink/60 px-2 py-1 rounded-full">${tag}</span>`).join('')}</div>` : ''}
+    </div>
+  `).join('');
+  observeReveals();
+}
+
+renderProducts();
+renderTestimonials();
+
+// ==========================================
+// REVEAL ON SCROLL
+// ==========================================
+function observeReveals() {
+  const reveals = document.querySelectorAll('.reveal:not(.visible)');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  reveals.forEach(el => observer.observe(el));
+}
+observeReveals();
+
+// ==========================================
+// MODAL / QUICK VIEW
+// ==========================================
+let currentProduct = null;
+let selectedSize = null;
+let selectedColor = null;
+let selectedQty = 1;
+
+function openModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  currentProduct = p;
+  selectedSize = p.sizes[0];
+  selectedColor = p.colors ? p.colors[0].name : null;
+  selectedQty = 1;
+
+  document.getElementById('modalImage').style.background = colorForSelection();
+  document.getElementById('modalImage').innerHTML = p.id === 'workshirt' ? shirtSvg(colorForSelection(), p.accent) : tshirtSvg(p.color, p.accent, p.logoText);
+  document.getElementById('modalCategory').textContent = p.category;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = fmtRp(p.price);
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalNote').textContent = p.note;
+  document.getElementById('modalQty').textContent = selectedQty;
+
+  const colorWrap = document.getElementById('modalColorWrap');
+  if (p.colors) {
+    colorWrap.classList.remove('hidden');
+    document.getElementById('modalColors').innerHTML = p.colors.map(c => `
+      <button class="color-pill ${c.name === selectedColor ? 'active' : ''}" onclick="selectColor('${c.name}', this)">
+        <span style="width:12px;height:12px;border-radius:50%;background:${c.hex};display:inline-block;border:1px solid rgba(0,0,0,0.15)"></span>
+        ${c.name}
+      </button>
+    `).join('');
+  } else {
+    colorWrap.classList.add('hidden');
+  }
+
+  document.getElementById('modalSizes').innerHTML = p.sizes.map(s => `
+    <button class="size-pill ${s === selectedSize ? 'active' : ''}" onclick="selectSize('${s}', this)">${s}</button>
+  `).join('');
+
+  const chart = document.getElementById('sizeChart');
+  chart.innerHTML = `<table class="w-full text-left"><thead><tr>${p.sizeChart[0].map(h => `<th class="pb-1 pr-4 font-semibold text-ink/60">${h}</th>`).join('')}</tr></thead><tbody>${p.sizeChart.slice(1).map(row => `<tr>${row.map(c => `<td class="pr-4 pt-1 text-ink/80">${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  chart.classList.add('hidden');
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function colorForSelection() {
+  if (currentProduct.colors) {
+    return currentProduct.colors.find(c => c.name === selectedColor)?.hex || currentProduct.color;
+  }
+  return currentProduct.color;
+}
+
+function selectColor(name, el) {
+  selectedColor = name;
+  document.querySelectorAll('#modalColors .color-pill').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('modalImage').style.background = colorForSelection();
+  document.getElementById('modalImage').innerHTML = shirtSvg(colorForSelection(), currentProduct.accent);
+}
+
+function selectSize(size, el) {
+  selectedSize = size;
+  document.querySelectorAll('#modalSizes .size-pill').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toggleSizeChart() {
+  document.getElementById('sizeChart').classList.toggle('hidden');
+}
+
+function changeQty(delta) {
+  selectedQty = Math.max(1, selectedQty + delta);
+  document.getElementById('modalQty').textContent = selectedQty;
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ==========================================
+// CART
+// ==========================================
+function getCart() {
+  return JSON.parse(localStorage.getItem('bandiera_cart') || '[]');
+}
+function saveCart(cart) {
+  localStorage.setItem('bandiera_cart', JSON.stringify(cart));
+  renderCart();
+}
+
+function addToCart() {
+  const cart = getCart();
+  const item = {
+    id: currentProduct.id,
+    name: currentProduct.name,
+    price: currentProduct.price,
+    size: selectedSize,
+    color: selectedColor,
+    qty: selectedQty,
+  };
+  const existing = cart.find(c => c.id === item.id && c.size === item.size && c.color === item.color);
+  if (existing) {
+    existing.qty += item.qty;
+  } else {
+    cart.push(item);
+  }
+  saveCart(cart);
+  showToast('Ditambahkan ke keranjang');
+  closeModal();
+  toggleCart(true);
+}
+
+function removeFromCart(index) {
+  const cart = getCart();
+  cart.splice(index, 1);
+  saveCart(cart);
+}
+
+function renderCart() {
+  const cart = getCart();
+  const container = document.getElementById('cartItems');
+  const countBadge = document.getElementById('cartCount');
+  const totalCount = cart.reduce((s, i) => s + i.qty, 0);
+
+  if (totalCount > 0) {
+    countBadge.textContent = totalCount;
+    countBadge.classList.remove('hidden');
+  } else {
+    countBadge.classList.add('hidden');
+  }
+
+  if (cart.length === 0) {
+    container.innerHTML = `<p class="text-sm text-ink/40 text-center py-10">Keranjang masih kosong.</p>`;
+  } else {
+    container.innerHTML = cart.map((item, i) => `
+      <div class="flex items-start justify-between gap-3 py-3 border-b border-ink/8">
+        <div>
+          <p class="font-display font-semibold text-sm text-ink leading-snug">${item.name}</p>
+          <p class="text-[11px] text-ink/45 mt-0.5">${item.size}${item.color ? ' · ' + item.color : ''} · Qty ${item.qty}</p>
+          <p class="text-xs font-semibold text-rust mt-1">${fmtRp(item.price * item.qty)}</p>
+        </div>
+        <button onclick="removeFromCart(${i})" class="text-ink/30 hover:text-rust text-xs mt-1">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    `).join('');
+  }
+
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('cartTotal').textContent = fmtRp(total);
+}
+renderCart();
+
+function toggleCart(open) {
+  document.getElementById('cartDrawer').classList.toggle('open', open);
+  document.getElementById('cartOverlay').classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
+// ==========================================
+// WHATSAPP CHECKOUT
+// ==========================================
+function buildOrderText(items, name, phone, address) {
+  const lines = items.map(i => `- ${i.name} (${i.size}${i.color ? ', ' + i.color : ''}) x${i.qty} = ${fmtRp(i.price * i.qty)}`);
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+  let msg = `Halo Bandiera, saya mau order:\n\n${lines.join('\n')}\n\nTotal: ${fmtRp(total)}`;
+  if (name) msg += `\n\nNama: ${name}`;
+  if (phone) msg += `\nNo. HP: ${phone}`;
+  if (address) msg += `\nAlamat: ${address}`;
+  return msg;
+}
+
+function buyNow() {
+  const item = { name: currentProduct.name, price: currentProduct.price, size: selectedSize, color: selectedColor, qty: selectedQty };
+  const text = buildOrderText([item], '', '', '');
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function checkoutWhatsApp() {
+  const cart = getCart();
+  if (cart.length === 0) {
+    showToast('Keranjang masih kosong');
+    return;
+  }
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+
+  if (!name || !phone || !address) {
+    showToast('Lengkapi data pengiriman dulu ya');
+    return;
+  }
+
+  const text = buildOrderText(cart, name, phone, address);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+// ==========================================
+// TOAST
+// ==========================================
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
